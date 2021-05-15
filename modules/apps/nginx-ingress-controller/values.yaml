@@ -1,0 +1,138 @@
+## Required only if defaultBackend.enabled = false
+## Must be <namespace>/<service_name>
+##
+defaultBackendService: ${default_namespace}/${default_backend}
+
+
+## Allows customization of the external service
+## the ingress will be bound to via DNS
+##
+publishService:
+  enabled: yes
+  ## Allows overriding of the publish service to bind to
+  ## Must be <namespace>/<service_name>
+  ##
+  pathOverride: ''
+
+
+
+## Service parameters
+##
+service:
+  ## Service type
+  ##
+  type: LoadBalancer
+
+  ## Service ports
+  ##
+  ports:
+    http: 80
+    https: 443
+
+  targetPorts:
+    http: http
+    https: https
+
+  ## Specify the nodePort value(s) for the LoadBalancer and NodePort service types.
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+  ##
+  nodePorts:
+    http: ''
+    https: ''
+    tcp: {}
+    udp: {}
+
+  ## Provide any additional annotations which may be required. This can be used to
+  ## set the LoadBalancer service type to internal only.
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+  annotations:
+      load-balancer.hetzner.cloud/name: ${lb_name}
+      load-balancer.hetzner.cloud/location: ${lb_location}
+      load-balancer.hetzner.cloud/use-private-ip: "true"
+      load-balancer.hetzner.cloud/disable-private-ingress: "true"
+      load-balancer.hetzner.cloud/ipv6-disabled: "true"
+      load-balancer.hetzner.cloud/protocol: ${lb_protocol}
+
+  ## Provide any additional label which may be required.
+  ##
+  labels: {}
+
+  ## clusterIP (optional)
+  ##
+  # clusterIP:
+
+  ## List of IP addresses at which the controller services are available
+  ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+  ##
+  externalIPs: []
+
+  ## loadBalancerIP (optional, cloud specific)
+  ## ref: http://kubernetes.io/docs/user-guide/services/#type-loadbalancer
+  ##
+  # loadBalancerIP:
+  ## Load Balancer sources
+  ## https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
+  ##
+  loadBalancerSourceRanges: []
+
+  ## Set external traffic policy to: "Local" to preserve source IP on providers supporting it
+  ## Ref: https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-typeloadbalancer
+  ##
+  externalTrafficPolicy: ''
+  healthCheckNodePort: 0
+
+
+
+## Default 404 backend
+##
+defaultBackend:
+  ## If false, defaultBackendService must be provided
+  ##
+  enabled: false
+
+## Prometheus exporter parameters
+##
+metrics:
+  enabled: false
+
+  ## Prometheus exporter service parameters
+  ##
+  service:
+    ## Prometheus exporter service type
+    ##
+    type: ClusterIP
+    ## Prometheus exporter port
+    ##
+    port: 9913
+    ## Annotations for the Prometheus exporter service
+    ##
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "{{ .Values.metrics.service.port }}"
+
+  ## Prometheus Operator ServiceMonitor configuration
+  ##
+  serviceMonitor:
+    enabled: false
+    ## Namespace in which Prometheus is running
+    ##
+    # namespace: monitoring
+    ## Interval at which metrics should be scraped.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    ##
+    interval: 30s
+    ## Timeout after which the scrape is ended
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    ##
+    # scrapeTimeout: 10s
+    ## ServiceMonitor selector labels
+    ## ref: https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#prometheus-configuration
+    ##
+    # selector:
+    #   prometheus: my-prometheus
+
+  prometheusRule:
+    enabled: false
+    additionalLabels: {}
+    namespace: ''
+    rules: []
