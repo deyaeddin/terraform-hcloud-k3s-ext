@@ -10,8 +10,7 @@ resource "helm_release" "nginx" {
     templatefile("${path.module}/values.yaml", {
       hostname       = var.default_domain
       default_backend= var.nginx_default_backend
-      cluster_issuer = var.cluster_issuer_name
+      issuer_name = "${var.cluster_issuer_name}-${var.letsencrypt_is_prod ? "prod":"stage"}"
     })
   ]
-
 }

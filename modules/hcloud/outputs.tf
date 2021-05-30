@@ -30,3 +30,26 @@ output "nodes_ipv4" {
     type => n.node_ipv4
   }
 }
+
+
+output "config_k3s_host" {
+  depends_on = [module.kubeconfig]
+  value = module.kubeconfig.k3s_host
+}
+
+output "k3s_cluster_ca_certificate" {
+  value = module.kubeconfig.k3s_cluster_ca_certificate
+  sensitive = true
+}
+
+
+output "k3s_client_certificate" {
+  value = module.kubeconfig.k3s_client_certificate
+  sensitive = true
+}
+
+output "k3s_client_key" {
+  value = module.kubeconfig.k3s_client_key
+  sensitive = true
+}
+

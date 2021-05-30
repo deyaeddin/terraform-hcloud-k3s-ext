@@ -1,6 +1,7 @@
 
 variable "hcloud_token" {
   description = "Hetzner cloud auth token"
+  sensitive = true
 }
 
 variable "cluster_name" {
@@ -50,12 +51,17 @@ variable "hcloud_subnet_id" {
 }
 
 variable "hcloud_network_id" {
-  description = "Herzner cloud private network Id"
+  description = "Hetzner cloud private network Id"
 }
 variable "hcloud_firewall_base_id" {
-  description = "Herzner firewall ID for masters and nodes"
+  description = "Hetzner firewall ID for masters and nodes"
 }
 
 variable "hcloud_firewall_k3s_master_id" {
-  description = "Herzner firewall ID for masters"
+  description = "Hetzner firewall ID for masters"
+}
+
+variable "hcloud_masters_extra_scripts" {
+  description = "Additional list of commands to be added to initial master server creation"
+  type = list(string)
 }

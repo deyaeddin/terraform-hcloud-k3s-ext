@@ -1,11 +1,10 @@
 #!/bin/bash
 
-apt-get -yq update
-apt-get install -yq \
+apt-get update -q -y
+apt-get install -q -y \
     ca-certificates \
     curl \
     ntp
-
 
 # k3s
 curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=${k3s_channel} INSTALL_K3S_VERSION="${k3s_version}" K3S_TOKEN=${k3s_token} sh -s - ${k3s_ha_init}\
@@ -34,3 +33,7 @@ kubectl -n kube-system create secret generic hcloud-csi --from-literal=token=${h
 cat <<'EOF' | sudo tee /var/lib/rancher/k3s/server/manifests/hcloud-csi.yaml
 ${csi_manifest}
 EOF
+
+
+# extra scripts
+${extra_scripts}

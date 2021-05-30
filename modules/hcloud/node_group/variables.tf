@@ -1,3 +1,4 @@
+
 variable "cluster_name" {
   description = "Cluster name (prefix for all resource names)"
 }
@@ -51,8 +52,14 @@ variable "hcloud_subnet_id" {
 }
 
 variable "hcloud_network_id" {
-  description = "Herzner cloud private network Id"
+  description = "Hetzner cloud private network Id"
 }
+
 variable "hcloud_firewall_base_id" {
-  description = "Herzner firewall ID for masters and nodes"
+  description = "Hetzner firewall ID for masters and nodes"
+}
+
+variable "hcloud_node_extra_scripts" {
+  description = "Additional list of commands to be added to initial node server creation"
+  type = list(string)
 }

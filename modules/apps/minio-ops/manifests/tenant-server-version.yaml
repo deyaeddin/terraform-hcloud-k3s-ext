@@ -1,0 +1,189 @@
+---
+apiVersion: minio.min.io/v2
+kind: Tenant
+metadata:
+  creationTimestamp: "2021-05-28T12:54:18Z"
+  generation: 1
+  managedFields:
+    - apiVersion: minio.min.io/v2
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:scheduler:
+          .: {}
+          f:name: {}
+        f:spec:
+          .: {}
+          f:console:
+            .: {}
+            f:consoleSecret:
+              .: {}
+              f:name: {}
+            f:image: {}
+            f:replicas: {}
+            f:resources:
+              .: {}
+              f:requests:
+                .: {}
+                f:memory: {}
+          f:credsSecret:
+            .: {}
+            f:name: {}
+          f:env: {}
+          f:exposeServices:
+            .: {}
+            f:console: {}
+            f:minio: {}
+          f:image: {}
+          f:imagePullSecret: {}
+          f:log:
+            .: {}
+            f:audit:
+              .: {}
+              f:diskCapacityGB: {}
+            f:db:
+              .: {}
+              f:resources: {}
+              f:volumeClaimTemplate:
+                .: {}
+                f:metadata:
+                  .: {}
+                  f:name: {}
+                f:spec:
+                  .: {}
+                  f:accessModes: {}
+                  f:resources:
+                    .: {}
+                    f:requests:
+                      .: {}
+                      f:storage: {}
+                  f:storageClassName: {}
+                f:status: {}
+            f:resources: {}
+          f:mountPath: {}
+          f:pools: {}
+          f:prometheus:
+            .: {}
+            f:diskCapacityGB: {}
+            f:resources: {}
+            f:storageClassName: {}
+          f:requestAutoCert: {}
+          f:users: {}
+      manager: console
+      operation: Update
+      time: "2021-05-28T12:54:18Z"
+    - apiVersion: minio.min.io/v2
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          .: {}
+          f:availableReplicas: {}
+          f:certificates:
+            .: {}
+            f:autoCertEnabled: {}
+          f:currentState: {}
+          f:drivesOnline: {}
+          f:healthStatus: {}
+          f:pools: {}
+          f:revision: {}
+          f:syncVersion: {}
+          f:writeQuorum: {}
+      manager: minio-operator
+      operation: Update
+      time: "2021-05-28T12:59:54Z"
+  name: store1
+  namespace: apps
+  resourceVersion: "19141"
+  uid: a0886bf7-a281-4111-990c-6104bbe72288
+scheduler:
+  name: ""
+spec:
+  console:
+    consoleSecret:
+      name: store1-console-secret
+    image: minio/console:v0.7.4
+    replicas: 1
+    resources:
+      requests:
+        memory: 64Mi
+  credsSecret:
+    name: store1-secret
+  env:
+    - name: MINIO_STORAGE_CLASS_STANDARD
+      value: EC:2
+  exposeServices:
+    console: true
+    minio: true
+  image: minio/minio:RELEASE.2021-05-27T22-06-31Z
+  imagePullSecret: {}
+  log:
+    audit:
+      diskCapacityGB: 10
+    db:
+      resources: {}
+      volumeClaimTemplate:
+        metadata:
+          name: store1-log
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: "5"
+          storageClassName: hcloud-volumes
+        status: {}
+    resources: {}
+  mountPath: /export
+  pools:
+    - affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: v1.min.io/tenant
+                    operator: In
+                    values:
+                      - store1
+                  - key: v1.min.io/pool
+                    operator: In
+                    values:
+                      - pool-0
+              topologyKey: kubernetes.io/hostname
+      name: pool-0
+      resources:
+        limits:
+          memory: 32Gi
+        requests:
+          memory: 2Gi
+      servers: 4
+      volumeClaimTemplate:
+        metadata:
+          name: data
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: "16106127360"
+          storageClassName: hcloud-volumes
+        status: {}
+      volumesPerServer: 1
+  prometheus:
+    diskCapacityGB: 5
+    resources: {}
+    storageClassName: hcloud-volumes
+  requestAutoCert: true
+  users:
+    - name: store1-user-0
+status:
+  availableReplicas: 4
+  certificates:
+    autoCertEnabled: true
+  currentState: Initialized
+  drivesOnline: 4
+  healthStatus: green
+  pools:
+    - ssName: store1-pool-0
+      state: PoolInitialized
+  revision: 0
+  syncVersion: ""
+  writeQuorum: 3

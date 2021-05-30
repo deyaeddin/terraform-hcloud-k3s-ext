@@ -574,7 +574,7 @@ ingress:
 
   ## Override API Version (automatically detected if not set)
   ##
-  apiVersion:
+  apiVersion: networking.k8s.io/v1
 
   ## When the ingress is enabled, a host pointing to this will be created
   ##
@@ -592,7 +592,7 @@ ingress:
   ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
   ##
   annotations:
-        cert-manager.io/cluster-issuer: ${cluster_issuer}
+        cert-manager.io/cluster-issuer: ${issuer_name}
         external-dns.alpha.kubernetes.io/hostname: ${hostname}
 
   ## Enable TLS configuration for the hostname defined at ingress.hostname parameter
@@ -667,7 +667,7 @@ healthIngress:
   ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
   ##
   annotations:
-        cert-manager.io/cluster-issuer: ${cluster_issuer}
+        cert-manager.io/cluster-issuer: ${issuer_name}
         external-dns.alpha.kubernetes.io/hostname: healthy.${hostname}
 
   ## Enable TLS configuration for the hostname defined at healthIngress.hostname parameter

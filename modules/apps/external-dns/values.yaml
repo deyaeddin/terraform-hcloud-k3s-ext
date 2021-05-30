@@ -81,7 +81,7 @@ hetzner:
     ## Use an existing secret. Mutually exclusive with `hetzner.token`
     ##
     secretName: ${secret_name}
-    secretKey: api-key
+    secretKey: hetzner-api-key
 
 
 
@@ -130,7 +130,7 @@ registry: "txt"
 txtOwnerId: ${ed_owner_id}
 ## Prefix to create a TXT record with a name following the pattern prefix.<CNAME record> (Mutual exclusive with txt-suffix)
 ##
-txtPrefix: "exdns_"
+txtPrefix: "exdns."
 ## Suffix to create a TXT record with a name following the pattern <CNAME record>.suffix (Mutual exclusive with txt-prefix)
 ##
 # txtSuffix: ""

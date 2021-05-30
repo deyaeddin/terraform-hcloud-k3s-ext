@@ -26,7 +26,7 @@ global:
 image:
   registry: docker.io
   repository: bitnami/minio
-  tag: 2021.4.22-debian-10-r6
+  tag: 2021.5.26-debian-10-r2
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -50,7 +50,7 @@ image:
 clientImage:
   registry: docker.io
   repository: bitnami/minio-client
-  tag: 2021.4.22-debian-10-r5
+  tag: 2021.5.18-debian-10-r9
 
 ## String to partially override common.names.fullname template (will maintain the release name)
 ##
@@ -74,7 +74,7 @@ kubeVersion:
 
 ## Cluster domain
 ##
-clusterDomain: ${hostname}.local
+clusterDomain: cluster.local
 
 ## Extra objects to deploy (value evaluated as a template)
 ##
@@ -412,7 +412,7 @@ ingress:
 
   ## Override API Version (automatically detected if not set)
   ##
-  apiVersion:
+  apiVersion: networking.k8s.io/v1
 
   ## When the ingress is enabled, a host pointing to this will be created
   ##
@@ -439,7 +439,7 @@ ingress:
   ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
   ##
   annotations:
-        cert-manager.io/cluster-issuer: ${cluster_issuer}
+        cert-manager.io/cluster-issuer: ${issuer_name}
         external-dns.alpha.kubernetes.io/hostname: ${hostname}
         nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 
@@ -515,7 +515,7 @@ networkPolicy:
 persistence:
   ## If true, use a Persistent Volume Claim, If false, use emptyDir
   ##
-  enabled: true
+  enabled: false
   ## Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -549,7 +549,7 @@ volumePermissions:
   image:
     registry: docker.io
     repository: bitnami/bitnami-shell
-    tag: "10"
+    tag: 10-debian-10-r91
     pullPolicy: Always
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -641,7 +641,7 @@ metrics:
 gateway:
   ## Use MinIO(R) as Gateway for other storage systems
   ##
-  enabled: false
+  enabled: true
   ## Gateway type
   ## Current supported types are: azure, gcs, nas, and s3
   ## ref: https://docs.minio.io/docs/minio-gateway-for-azure
@@ -649,7 +649,7 @@ gateway:
   ## ref: https://docs.minio.io/docs/minio-gateway-for-nas
   ## ref: https://docs.minio.io/docs/minio-gateway-for-s3
   ##
-  type: s3
+  type: gcs
   ## Number of Gateway replicas
   ##
   replicaCount: 4
@@ -668,10 +668,21 @@ gateway:
     ## Ignored unless type=gcs
     ##
     gcs:
-      accessKey: ""
-      secretKey: ""
-      keyJSON: ""
-      projectID: ""
+      accessKey: "${minio_access_key_pass}"
+      secretKey: "${minio_secret_key_pass}"
+      keyJSON: '{
+        "type": "service_account",
+        "project_id": "yanax-app",
+        "private_key_id": "3378c472f35ed6f9a82ad04e4d6e344406cdd161",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCjlzpbBpwZiYlV\naMO0RtXNG1PcTzlOaF18MqPEp+Fa50XLiJ0jKLtvBCrTlbrtas8OZfSXat6VvXHo\nTtyghpvmGxe6j/IJUOks2IvfxGsyGJtiIhdbsvkxKy4WMYlHQLNadRTxJWDQ6IGv\nJRzLAVZvH90CDbJ2RyZVFbq2XfdoEWgFD1DIQHdpmoiy1yCjSixvEExF8ZKpKBLh\nP14Cnix1OGVqMSIQIhJc4A9uxntR1ekBmKrF63f9uUnq6cy7ayPfDd6EIsxZRFXP\nS8EQUn3JiYRRCorJwNHjVTcr8SgvDQuDs1WirFgVYz2ZJwdMFwj1Iv16k5BPuOJf\n4wf9qP23AgMBAAECggEAP+XdgtmJloX80RIbQyrZ7wQKFQcS5LfqMA1dn35NjWLB\nhdcmPan20E2p5rxY58xs9PxI9e3l5Eo7mFhZYBBEC7SwZ4w7J31lnsE0nWJM1qP6\n6XFUe1pkcFqj5UJTEzRH+gC6fdiyQNdYdE+EOB0dJEmnW1p7RyzSYbCbngkFDq4B\n9zeYR50CIfU7z84uLRXaJbDNibpbbsx5qhgKAOuSRGDaWwrSsT61r0xJs3SCoRcv\nV8h8CVIlngAc192KDXYctSkfcKa2SraKcdj+IpseH+OWkh6E4ycZDhz/UZWYbcFT\nh+i72hCz73OxkaL9lLbaextb9uH+Y6ZZ6p441z4EIQKBgQDPmcl8N/IxqvlyVWUA\nsAh/isBnBYKpOg0lhARb+VUaQUNZIGsxMocZ4r9pBafpMClpoDqtdKHKU2C2yDVE\nKn4WMvEKnxZnF97Z6/5a7azKSI5xdOL47UGnBQYc3dBm/BvCmHqpozcp42LjWAiN\nEzmOoXEMQbmnpRUbdQ89xXholwKBgQDJusv8++YwWo4CMD5EVvZMch2rl881/KeG\nm4MZ6He/OT3HqQMSdkFZ32ijpy0Kc9xJOjyQemS0oRz3wv2jeQIIbyz81uGNt/R9\noQ3YbRGwsY+833QwbxNS9WjqOf9kgUtoQiD6VaCSr0W9zUljRMvnpMvjWU2z8nEJ\n05btQHyX4QKBgQCaDQyu2PUoVi904FlrATXNLzFHQZeL7EAFLsntVkAIk5VedegV\nQeFvHAvd6wyGxe51KylfvcSxVt3VxQuB4eZeor6rmxIMvnHoVG8TGnu2P9Ez8ADd\np3GodtnqYc9cHIidBnk/mJY+xzWCbrkptrJnXPV+muchuCbJkTwWIosPUQKBgGTG\nJw87O1PeeOCI/yIemy23ODE3RjE/BOVOnKB9rAxf6Qfr23gGkUD3RQu0AOEe3eXK\n7ORz8Aj4D0OKKjDWy3gxKbUpF0Y3pjB4GzWJzvOI0DhXHHDxnCKuK/oOfRHVMTll\nB5pm2i9M1bcqbUXk4UPX5G6vdwy0yVlSVSwyMcuhAoGAEuJBfzFSr0Q2H0l/KjxT\ndf7ouwdcvjZCbNHPuQBLjcULElnaVsYHFe7uuG8q9hTqzPAdfrGLLE00bEabK0BE\n3vdx3zMmz89AB8EpvNxxiO5YRAzwVT+y+0FGUpX9u8GObqdGU8YDQ/5j8blzvgue\nNrOtJWmdlRByvjXeqcMG8XM=\n-----END PRIVATE KEY-----\n",
+        "client_email": "hcloud-bucket-access@yanax-app.iam.gserviceaccount.com",
+        "client_id": "113125573600696605928",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hcloud-bucket-access%40yanax-app.iam.gserviceaccount.com"
+      }'
+      projectID: "yanax-app"
     ## Authentication configuration for NAS
     ## Ignored unless type=nas
     ##

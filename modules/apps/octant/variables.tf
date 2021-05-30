@@ -7,9 +7,11 @@ variable "cluster_issuer_name" {
   description = "name fro cert-manager cluster issuer"
 }
 
-variable "nginx_default_backend" {
-  description = "nginx ingress controller default backend service name"
+variable "letsencrypt_is_prod" {
+  type        = bool
+  description = "wither to utilize the staging or production for Letsencrypt certificates issuing"
 }
+
 variable "default_namespace" {
-  description = "webroot namespace"
+  description = "default applications namespace"
 }

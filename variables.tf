@@ -2,6 +2,7 @@
 ## Common
 variable "hcloud_token" {
   description = "Hetzner cloud auth token"
+  sensitive = true
 }
 
 variable "k3s_config_file" {
@@ -76,6 +77,16 @@ variable "master_groups_count" {
   description = "Number of control plane nodes."
 }
 
+variable "hcloud_masters_extra_scripts" {
+  description = "Additional list of commands to be added to initial master server creation"
+  type = list(string)
+}
+
+variable "hcloud_node_extra_scripts" {
+  description = "Additional list of commands to be added to initial node server creation"
+  type = list(string)
+}
+
 
 # Apps
 variable "default_domain" {
@@ -116,11 +127,12 @@ variable "nginx_default_backend" {
 }
 
 variable "default_namespace" {
-  description = "webroot namespace"
+  description = "default applications namespace"
 }
 
 variable "hcloud_dns_api_token" {
   description = "hashed Hetzner DNS access token"
+  sensitive = true
 }
 
 variable "dns_provider" {
@@ -129,10 +141,12 @@ variable "dns_provider" {
 
 variable "cloud_flare_api_token" {
   description = "Cloudflare api token. Ref: https://dash.cloudflare.com/profile/api-tokens"
+  sensitive = true
 }
 
 variable "cloud_flare_api_key" {
   description = "Cloudflare api key.  Ref: https://dash.cloudflare.com/profile/api-tokens"
+  sensitive = true
 }
 
 variable "cloud_flare_api_email" {
@@ -143,5 +157,6 @@ variable "cloud_flare_api_proxied" {
   description = "wither the zone will be proxied on cloudflare "
 }
 
-
-
+variable "storage_class" {
+  description = "storage class to use with minio drivers"
+}

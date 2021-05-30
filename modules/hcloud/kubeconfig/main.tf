@@ -1,38 +1,44 @@
 
-data "template_file" "setkubeconfig" {
-  template = file("${path.module}/templates/setkubeconfig")
+
+// Setting KubeConfig
+data "template_file" "set_kube_config" {
+  template = file("${path.module}/templates/setkubeconfig.sh")
   vars = {
     cluster_name  = var.cluster_name
     master_ipv4   = var.master_ipv4
-    config_file   = var.k3s_config_file
     private_key   = var.private_key_path
+    config_file   = var.k3s_config_file
   }
 }
 
-resource "local_file" "setkubeconfig" {
-  content         = data.template_file.setkubeconfig.rendered
-  filename        = "./setkubeconfig"
+resource "local_file" "set_kube_config" {
+  content         = data.template_file.set_kube_config.rendered
+  filename        = "${path.module}/exec/setkubeconfig.sh"
   file_permission = "0755"
   provisioner "local-exec" {
-    command = "./setkubeconfig"
+    command = "${path.module}/exec/setkubeconfig.sh"
   }
 }
 
-data "template_file" "unsetkubeconfig" {
-  template = file("${path.module}/templates/unsetkubeconfig")
+
+
+
+// Clearing KubeConfig
+data "template_file" "unset_kube_config" {
+  template = file("${path.module}/templates/unsetkubeconfig.sh")
   vars = {
     cluster_name = var.cluster_name
   }
 }
 
-resource "local_file" "unsetkubeconfig" {
-  content         = data.template_file.unsetkubeconfig.rendered
-  filename        = "./unsetkubeconfig"
+resource "local_file" "unset_kube_config" {
+  content         = data.template_file.unset_kube_config.rendered
+  filename        = "${path.module}/exec/unsetkubeconfig.sh"
   file_permission = "0755"
 
   provisioner "local-exec" {
     when    = destroy
-    command = "./unsetkubeconfig"
+    command = "${path.module}/exec/unsetkubeconfig.sh"
   }
 }
 

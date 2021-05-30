@@ -1,6 +1,6 @@
 
-variable "hcloud_token" {
-  description = "Hetzner cloud auth token"
+variable "cluster_name" {
+  description = "Cluster name (prefix for all resource names)"
 }
 
 variable "k3s_config_file" {
@@ -41,7 +41,7 @@ variable "nginx_default_backend" {
 }
 
 variable "default_namespace" {
-  description = "webroot namespace"
+  description = "default applications namespace"
 }
 
 variable "dns_provider" {
@@ -50,10 +50,12 @@ variable "dns_provider" {
 
 variable "cloud_flare_api_token" {
   description = "Cloudflare api token. Ref: https://dash.cloudflare.com/profile/api-tokens"
+  sensitive = true
 }
 
 variable "cloud_flare_api_key" {
   description = "Cloudflare api key.  Ref: https://dash.cloudflare.com/profile/api-tokens"
+  sensitive = true
 }
 
 variable "cloud_flare_api_email" {
@@ -64,10 +66,15 @@ variable "cloud_flare_api_proxied" {
   description = "wither the zone will be proxied on cloudflare "
 }
 
+variable "storage_class" {
+  description = "storage class to use with minio drivers"
+}
+
 variable "cert_manager_solver_type" {
   description = "which solver cert-manger will use, values : HTTP01, DNS01_CLOUDFLARE, DNS01_HETZNER"
 }
 
 variable "hcloud_dns_api_token" {
   description = "hashed Hetzner DNS access token"
+  sensitive = true
 }

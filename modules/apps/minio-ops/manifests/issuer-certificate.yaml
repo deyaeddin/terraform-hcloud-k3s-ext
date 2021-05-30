@@ -1,0 +1,27 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigning-issuer
+  namespace: ${ns_to_watch}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${minio-tls-cert-name}-certificate
+  namespace: ${ns_to_watch}
+spec:
+  commonName: minio.farhand.me
+  secretName: ${minio-tls-cert-name}
+  dnsNames:
+    - '${tenant_name}-hl-svc.${ns_to_watch}.svc.cluster.local'
+    - '${tenant_name}-hl-svc'
+    - 'minio.${ns_to_watch}.svc.cluster.local'
+    - 'minio.${ns_to_watch}'
+    - 'minio.${ns_to_watch}.svc'
+    - '*.${tenant_name}-hl.${ns_to_watch}.svc.cluster.local'
+    - '*.${ns_to_watch}.svc.cluster.local'
+  issuerRef:
+    name: selfsigning-issuer

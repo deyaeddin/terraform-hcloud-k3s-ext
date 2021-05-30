@@ -21,6 +21,8 @@ data "template_file" "master_init" {
 
     ccm_manifest = data.template_file.ccm_manifest.rendered
     csi_manifest = data.template_file.csi_manifest.rendered
+
+    extra_scripts = join("\n", var.hcloud_masters_extra_scripts)
   }
 }
 
@@ -61,6 +63,8 @@ data "template_file" "master_node_init" {
 
     ccm_manifest = data.template_file.ccm_manifest.rendered
     csi_manifest = data.template_file.csi_manifest.rendered
+
+    extra_scripts = join("\n", var.hcloud_masters_extra_scripts)
   }
   depends_on = [hcloud_server_network.master]
 }

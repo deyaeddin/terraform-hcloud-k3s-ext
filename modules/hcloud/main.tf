@@ -13,7 +13,7 @@ resource "hcloud_network_subnet" "subnet" {
 }
 
 resource "hcloud_firewall" "base" {
-  name = "base"
+  name = "${var.cluster_name}-base"
   rule {
     direction  = "in"
     protocol   = "icmp"
@@ -37,7 +37,7 @@ resource "hcloud_firewall" "base" {
 }
 
 resource "hcloud_firewall" "k3s_master" {
-  name = "k3s-server"
+  name = "${var.cluster_name}-k3s-server"
   rule {
     direction  = "in"
     protocol   = "tcp"
@@ -76,6 +76,7 @@ module "master_group" {
   k3s_channel = var.k3s_channel
   k3s_version = var.k3s_version
 
+  hcloud_masters_extra_scripts = var.hcloud_masters_extra_scripts
   hcloud_token = var.hcloud_token
 
   masters_node_type  = var.master_groups_type
@@ -100,6 +101,8 @@ module "node_group" {
   k3s_token   = random_string.k3s_token.result
   k3s_channel = var.k3s_channel
   k3s_version = var.k3s_version
+
+  hcloud_node_extra_scripts = var.hcloud_node_extra_scripts
 
   for_each   = var.node_groups
   node_type  = each.key

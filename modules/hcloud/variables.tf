@@ -1,5 +1,7 @@
+
 variable "hcloud_token" {
   description = "Hetzner cloud auth token"
+  sensitive = true
 }
 
 variable "k3s_config_file" {
@@ -63,4 +65,14 @@ variable "master_groups_type" {
 
 variable "master_groups_count" {
     description = "Number of control plane nodes."
+}
+
+variable "hcloud_masters_extra_scripts" {
+  description = "Additional list of commands to be added to initial master server creation"
+  type = list(string)
+}
+
+variable "hcloud_node_extra_scripts" {
+  description = "Additional list of commands to be added to initial node server creation"
+  type = list(string)
 }

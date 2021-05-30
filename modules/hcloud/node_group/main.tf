@@ -7,6 +7,8 @@ data "template_file" "node_init" {
     k3s_version = var.k3s_version
 
     master_internal_ipv4 = var.master_internal_ipv4
+
+    extra_scripts = join("\n", var.hcloud_node_extra_scripts)
   }
 }
 
@@ -34,6 +36,3 @@ resource "hcloud_server_network" "node" {
   subnet_id = var.hcloud_subnet_id
 }
 
-output "node_ipv4" {
-  value = hcloud_server.node.*.ipv4_address
-}

@@ -18,6 +18,7 @@ variable "issuer_email" {
 
 variable "cloud_flare_api_key" {
   description = "Cloudflare api key.  Ref: https://dash.cloudflare.com/profile/api-tokens"
+  sensitive = true
 }
 
 variable "cloud_flare_api_email" {
@@ -34,4 +35,5 @@ variable "default_domain" {
 
 variable "hcloud_dns_api_token" {
   description = "hashed Hetzner DNS access token"
+  sensitive = true
 }
