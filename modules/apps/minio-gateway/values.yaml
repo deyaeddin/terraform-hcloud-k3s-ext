@@ -672,17 +672,17 @@ gateway:
       secretKey: "${minio_secret_key_pass}"
       keyJSON: '{
         "type": "service_account",
-        "project_id": "yanax-app",
-        "private_key_id": "3378c472f35ed6f9a82ad04e4d6e344406cdd161",
-        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCjlzpbBpwZiYlV\naMO0RtXNG1PcTzlOaF18MqPEp+Fa50XLiJ0jKLtvBCrTlbrtas8OZfSXat6VvXHo\nTtyghpvmGxe6j/IJUOks2IvfxGsyGJtiIhdbsvkxKy4WMYlHQLNadRTxJWDQ6IGv\nJRzLAVZvH90CDbJ2RyZVFbq2XfdoEWgFD1DIQHdpmoiy1yCjSixvEExF8ZKpKBLh\nP14Cnix1OGVqMSIQIhJc4A9uxntR1ekBmKrF63f9uUnq6cy7ayPfDd6EIsxZRFXP\nS8EQUn3JiYRRCorJwNHjVTcr8SgvDQuDs1WirFgVYz2ZJwdMFwj1Iv16k5BPuOJf\n4wf9qP23AgMBAAECggEAP+XdgtmJloX80RIbQyrZ7wQKFQcS5LfqMA1dn35NjWLB\nhdcmPan20E2p5rxY58xs9PxI9e3l5Eo7mFhZYBBEC7SwZ4w7J31lnsE0nWJM1qP6\n6XFUe1pkcFqj5UJTEzRH+gC6fdiyQNdYdE+EOB0dJEmnW1p7RyzSYbCbngkFDq4B\n9zeYR50CIfU7z84uLRXaJbDNibpbbsx5qhgKAOuSRGDaWwrSsT61r0xJs3SCoRcv\nV8h8CVIlngAc192KDXYctSkfcKa2SraKcdj+IpseH+OWkh6E4ycZDhz/UZWYbcFT\nh+i72hCz73OxkaL9lLbaextb9uH+Y6ZZ6p441z4EIQKBgQDPmcl8N/IxqvlyVWUA\nsAh/isBnBYKpOg0lhARb+VUaQUNZIGsxMocZ4r9pBafpMClpoDqtdKHKU2C2yDVE\nKn4WMvEKnxZnF97Z6/5a7azKSI5xdOL47UGnBQYc3dBm/BvCmHqpozcp42LjWAiN\nEzmOoXEMQbmnpRUbdQ89xXholwKBgQDJusv8++YwWo4CMD5EVvZMch2rl881/KeG\nm4MZ6He/OT3HqQMSdkFZ32ijpy0Kc9xJOjyQemS0oRz3wv2jeQIIbyz81uGNt/R9\noQ3YbRGwsY+833QwbxNS9WjqOf9kgUtoQiD6VaCSr0W9zUljRMvnpMvjWU2z8nEJ\n05btQHyX4QKBgQCaDQyu2PUoVi904FlrATXNLzFHQZeL7EAFLsntVkAIk5VedegV\nQeFvHAvd6wyGxe51KylfvcSxVt3VxQuB4eZeor6rmxIMvnHoVG8TGnu2P9Ez8ADd\np3GodtnqYc9cHIidBnk/mJY+xzWCbrkptrJnXPV+muchuCbJkTwWIosPUQKBgGTG\nJw87O1PeeOCI/yIemy23ODE3RjE/BOVOnKB9rAxf6Qfr23gGkUD3RQu0AOEe3eXK\n7ORz8Aj4D0OKKjDWy3gxKbUpF0Y3pjB4GzWJzvOI0DhXHHDxnCKuK/oOfRHVMTll\nB5pm2i9M1bcqbUXk4UPX5G6vdwy0yVlSVSwyMcuhAoGAEuJBfzFSr0Q2H0l/KjxT\ndf7ouwdcvjZCbNHPuQBLjcULElnaVsYHFe7uuG8q9hTqzPAdfrGLLE00bEabK0BE\n3vdx3zMmz89AB8EpvNxxiO5YRAzwVT+y+0FGUpX9u8GObqdGU8YDQ/5j8blzvgue\nNrOtJWmdlRByvjXeqcMG8XM=\n-----END PRIVATE KEY-----\n",
-        "client_email": "hcloud-bucket-access@yanax-app.iam.gserviceaccount.com",
-        "client_id": "113125573600696605928",
+        "project_id": "project-app",
+        "private_key_id": "xyz",
+        "private_key": "-----BEGIN PRIVATE KEY-----\affM=\n-----END PRIVATE KEY-----\n",
+        "client_email": "hcloud-bucket-access@project-app.iam.gserviceaccount.com",
+        "client_id": "gdfgsafda",
         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
         "token_uri": "https://oauth2.googleapis.com/token",
         "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
         "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hcloud-bucket-access%40yanax-app.iam.gserviceaccount.com"
       }'
-      projectID: "yanax-app"
+      projectID: "project-app"
     ## Authentication configuration for NAS
     ## Ignored unless type=nas
     ##
