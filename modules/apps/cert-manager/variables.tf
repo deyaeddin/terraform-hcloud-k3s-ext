@@ -4,7 +4,7 @@ variable "k3s_config_file" {
 }
 
 variable "cluster_issuer_name" {
-  description = "name fro cert-manager cluster issuer"
+  description = "name for cert-manager cluster issuer"
 }
 
 variable "letsencrypt_is_prod" {
