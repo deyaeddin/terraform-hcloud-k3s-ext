@@ -35,6 +35,7 @@ module "k3s-ext" {
    hcloud_node_extra_scripts    = []
    hcloud_token                 = "<Hetzner Cloud api token>"
    issuer_email                 = "deya@yanax.com"
+   enable_apps                  = true
 
    //optional
    k3s_version                  = "v1.21.1+k3s1" //"v1.19.11+k3s1" "v1.20.7+k3s1" "v1.21.1+k3s1"

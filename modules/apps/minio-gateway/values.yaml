@@ -515,7 +515,7 @@ networkPolicy:
 persistence:
   ## If true, use a Persistent Volume Claim, If false, use emptyDir
   ##
-  enabled: false
+  enabled: true
   ## Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -641,7 +641,7 @@ metrics:
 gateway:
   ## Use MinIO(R) as Gateway for other storage systems
   ##
-  enabled: true
+  enabled: false
   ## Gateway type
   ## Current supported types are: azure, gcs, nas, and s3
   ## ref: https://docs.minio.io/docs/minio-gateway-for-azure
