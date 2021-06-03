@@ -2,6 +2,8 @@
 # Kubernetes K3S Terraform Module
 This module is heavily inspired by [cicdteam/terraform-hcloud-k3s](https://github.com/cicdteam/terraform-hcloud-k3s) with extra applications ready to be installed with ``` make apply```. All Applications are using HELM charts, and highly customizable.
 
+Use [Hetzner Cloud link](https://hetzner.cloud/?ref=6PAAEo0epOOA) to get €20  
+
 ## List of Applications:
  - [Cert-Manager](https://cert-manager.io/): 3 ways to choice for issuing certificates [HTTP01, DNS01_CLOUDFLARE, [DNS01_HETZNER](https://github.com/deyaeddin/cert-manager-webhook-hetzner)]
  - [default-backend](https://github.com/bitnami/charts/tree/master/bitnami/nginx): default bitnami-nginx chart
@@ -17,6 +19,33 @@ This module is heavily inspired by [cicdteam/terraform-hcloud-k3s](https://githu
    - load-balancer.hetzner.cloud/ipv6-disabled: "true"
    - load-balancer.hetzner.cloud/protocol: ${lb_protocol}
 **(you can change those variables from values.auto.tfvars)
+
+
+## Example
+```terraform
+module "k3s-ext" {
+   source                       = "deyaeddin/k3s-ext/hcloud"
+   version                      = "0.0.1"
+   cloud_flare_api_email        = "<Cloudflare primary email :: leave empty if you are using Hetzner>"
+   cloud_flare_api_key          = "<Cloudflare api key :: leave empty if you are using Hetzner>"
+   cloud_flare_api_token        = "<Cloudflare api token :: leave empty if you are using Hetzner>"
+   default_domain               = "example.com"
+   hcloud_dns_api_token         = "<hetzner DNS api token :: leave empty if you are using Cloudflare>"
+   hcloud_masters_extra_scripts = []
+   hcloud_node_extra_scripts    = []
+   hcloud_token                 = "<Hetzner Cloud api token>"
+   issuer_email                 = "deya@yanax.com"
+
+   //optional
+   k3s_version                  = "v1.21.1+k3s1" //"v1.19.11+k3s1" "v1.20.7+k3s1" "v1.21.1+k3s1"
+   master_groups_type           = "cx21"         # 2 vCPU, 4 GB RAM, 40 GB Disk space
+   master_groups_count          = 3              // Odd number for HA enabled
+   node_groups = {                               // NOTE: pass emtpy map to use a single master
+      "cx21" = 4
+      "cpx11" = 2
+   }
+}
+```
 
 ## Requirements
 
