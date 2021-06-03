@@ -1,5 +1,22 @@
-# terraform-hcloud-k3s-ext
 
+# Kubernetes K3S Terraform Module
+This module is heavily inspired by [cicdteam/terraform-hcloud-k3s](https://github.com/cicdteam/terraform-hcloud-k3s) with extra applications ready to be installed with ``` make apply```. All Applications are using HELM charts, and highly customizable.
+
+## List of Applications:
+ - [Cert-Manager](https://cert-manager.io/): 3 ways to choice for issuing certificates [HTTP01, DNS01_CLOUDFLARE, [DNS01_HETZNER](https://github.com/deyaeddin/cert-manager-webhook-hetzner)]
+ - [default-backend](https://github.com/bitnami/charts/tree/master/bitnami/nginx): default bitnami-nginx chart
+ - [external-dns](https://github.com/bitnami/charts/tree/master/bitnami/external-dns):  external-dns chart with ability to chose between "hetzner or cloudflare"
+ - [minio-gateway](https://github.com/bitnami/charts/tree/master/bitnami/minio):  minio chart to use as gateway bucket for backup.
+ - [minio-ops](https://github.com/minio/operator):  minio Operator chart with Tenant. 
+ - [octant](https://github.com/aleveille/octant-dashboard-turnkey)
+ - [nginx-ingress-controller](https://github.com/bitnami/charts/tree/master/bitnami/nginx-ingress-controller): default bitnami-nginx-ingress-controller chart, with annotations:
+   - load-balancer.hetzner.cloud/name: ${lb_name}
+   - load-balancer.hetzner.cloud/location: ${lb_location}
+   - load-balancer.hetzner.cloud/use-private-ip: "true"
+   - load-balancer.hetzner.cloud/disable-private-ingress: "true"
+   - load-balancer.hetzner.cloud/ipv6-disabled: "true"
+   - load-balancer.hetzner.cloud/protocol: ${lb_protocol}
+**(you can change those variables from values.auto.tfvars)
 
 ## Requirements
 
