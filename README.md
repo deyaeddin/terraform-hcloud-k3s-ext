@@ -18,7 +18,9 @@ Use [Hetzner Cloud link](https://hetzner.cloud/?ref=6PAAEo0epOOA) to get €20
    - load-balancer.hetzner.cloud/disable-private-ingress: "true"
    - load-balancer.hetzner.cloud/ipv6-disabled: "true"
    - load-balancer.hetzner.cloud/protocol: ${lb_protocol}
-**(you can change those variables from values.auto.tfvars)
+
+
+***refer to [Inputs](#Inputs) for more options***
 
 
 ## Example
