@@ -5,7 +5,7 @@ module "k3s-ext" {
   cloud_flare_api_email        = ""
   cloud_flare_api_key          = ""
   cloud_flare_api_token        = ""
-  default_domain               = "farhand.me"
+  default_domain               = "example.me"
   hcloud_dns_api_token         = ""
   hcloud_masters_extra_scripts = []
   hcloud_node_extra_scripts    = []
