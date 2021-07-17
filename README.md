@@ -1,6 +1,6 @@
 
 # Kubernetes K3S Terraform Module
-This module is heavily inspired by [cicdteam/terraform-hcloud-k3s](https://github.com/cicdteam/terraform-hcloud-k3s) with extra applications ready to be installed with ``` make apply```. All Applications are using HELM charts, and highly customizable.
+This module is inspired by [cicdteam/terraform-hcloud-k3s](https://github.com/cicdteam/terraform-hcloud-k3s) with extra applications ready to be installed with ``` make apply```. All Applications are using HELM charts, and highly customizable.
 
 Use [Hetzner Cloud link](https://hetzner.cloud/?ref=6PAAEo0epOOA) to get €20  
 
