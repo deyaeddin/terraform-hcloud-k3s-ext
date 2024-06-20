@@ -1,8 +1,8 @@
 
 
 resource "hcloud_network" "private" {
-  name     = "${var.cluster_name}-network"
-  ip_range = var.hcloud_network_ip_range
+  name        = "${var.cluster_name}-network"
+  ip_range    = var.hcloud_network_ip_range
 }
 
 resource "hcloud_network_subnet" "subnet" {
@@ -118,6 +118,6 @@ module "kubeconfig" {
   k3s_config_file   = var.k3s_config_file
   private_key_path  = var.private_key_path
 
-  depends_on        = [module.node_group, module.master_group]
+  depends_on        = [module.master_group, module.node_group]
 }
 

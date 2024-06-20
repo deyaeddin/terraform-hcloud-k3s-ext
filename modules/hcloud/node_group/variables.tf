@@ -14,7 +14,7 @@ variable "node_count" {
 variable "node_type" {
   description = "Node type (size)"
   validation {
-    condition     = can(regex("^cx11$|^cpx11$|^cx21$|^cpx21$|^cx31$|^cpx31$|^cx41$|^cpx41$|^cx51$|^cpx51$|^ccx11$|^ccx21$|^ccx31$|^ccx41$|^ccx51$", var.node_type))
+    condition     = can(regex("^cx22$|^cpx11$|^cx32$|^cpx21$|^cpx31$|^cx42$|^cpx41$|^cx52$|^cpx51$|^ccx11$|^ccx21$|^ccx31$|^ccx41$|^ccx51$", var.node_type))
     error_message = "Node type is not valid."
   }
 }

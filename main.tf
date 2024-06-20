@@ -1,6 +1,12 @@
 
+locals {
+  current_date = formatdate("YYYY-MM-DD", timestamp())
+  name_with_date = "Terraform key - ${local.current_date}"
+}
+
+
 resource "hcloud_ssh_key" "default" {
-  name       = "Terraform key"
+  name       = local.name_with_date
   public_key = file(var.public_key_path)
 }
 
@@ -38,6 +44,10 @@ module "apps" {
   cert_manager_solver_type = var.cert_manager_solver_type
   hcloud_dns_api_token     = var.hcloud_dns_api_token
   default_domain           = var.default_domain
+  default_backend_image_registry = var.default_backend_image_registry
+  default_backend_image_repository = var.default_backend_image_repository
+  default_backend_image_tag = var.default_backend_image_tag
+  default_backend_image_digest = var.default_backend_image_digest
   lb_hcloud_location       = var.lb_hcloud_location
   lb_hcloud_name           = var.lb_hcloud_name
   lb_hcloud_protocol       = var.lb_hcloud_protocol
@@ -49,6 +59,10 @@ module "apps" {
   cloud_flare_api_proxied  = var.cloud_flare_api_proxied
   cloud_flare_api_token    = var.cloud_flare_api_token
   storage_class            = var.storage_class
+  providers = {
+    helm.default = helm.default
+    helm.configured = helm.configured
+  }
   depends_on               = [module.hcloud]
 
 }

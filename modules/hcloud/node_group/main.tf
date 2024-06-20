@@ -1,7 +1,6 @@
 
-data "template_file" "node_init" {
-  template = file("${path.module}/templates/init.sh")
-  vars = {
+locals {
+  node_init = templatefile("${path.module}/templates/init.sh", {
     k3s_token   = var.k3s_token
     k3s_channel = var.k3s_channel
     k3s_version = var.k3s_version
@@ -9,7 +8,7 @@ data "template_file" "node_init" {
     master_internal_ipv4 = var.master_internal_ipv4
 
     extra_scripts = join("\n", var.hcloud_node_extra_scripts)
-  }
+  })
 }
 
 resource "hcloud_server" "node" {
@@ -19,7 +18,7 @@ resource "hcloud_server" "node" {
   datacenter  = var.hcloud_datacenter
   image       = var.image
   ssh_keys    = var.ssh_keys
-  user_data   = data.template_file.node_init.rendered
+  user_data   = local.node_init
 
   labels = {
     provisioner = "terraform",

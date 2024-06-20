@@ -1,10 +1,10 @@
 #!/bin/bash
 
 CLUSTER=${cluster_name}
-
+K3S_CONFIG_FILE=${config_file}
 ###################
 
-kubectl config unset current-context
-kubectl config unset clusters.$CLUSTER
-kubectl config unset users.$CLUSTER
-kubectl config unset contexts.$CLUSTER
+kubectl config --kubeconfig $K3S_CONFIG_FILE unset current-context
+kubectl config --kubeconfig $K3S_CONFIG_FILE unset clusters.$CLUSTER
+kubectl config --kubeconfig $K3S_CONFIG_FILE unset users.$CLUSTER
+kubectl config --kubeconfig $K3S_CONFIG_FILE unset contexts.$CLUSTER

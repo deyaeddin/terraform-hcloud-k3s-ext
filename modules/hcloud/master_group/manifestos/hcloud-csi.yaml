@@ -106,7 +106,7 @@ spec:
       serviceAccountName: hcloud-csi
       containers:
         - name: csi-attacher
-          image: quay.io/k8scsi/csi-attacher:v2.2.0
+          image: quay.io/k8scsi/csi-attacher:v3.1.0
           args:
             - --csi-address=/var/lib/csi/sockets/pluginproxy/csi.sock
             - --v=5
@@ -119,7 +119,7 @@ spec:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
         - name: csi-resizer
-          image: quay.io/k8scsi/csi-resizer:v0.3.0
+          image: quay.io/k8scsi/csi-resizer:v1.1.0
           args:
             - --csi-address=/var/lib/csi/sockets/pluginproxy/csi.sock
             - --v=5
@@ -132,7 +132,7 @@ spec:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
         - name: csi-provisioner
-          image: quay.io/k8scsi/csi-provisioner:v1.6.0
+          image: quay.io/k8scsi/csi-provisioner:v2.1.2
           args:
             - --provisioner=csi.hetzner.cloud
             - --csi-address=/var/lib/csi/sockets/pluginproxy/csi.sock
@@ -147,7 +147,7 @@ spec:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
         - name: hcloud-csi-driver
-          image: hetznercloud/hcloud-csi-driver:1.5.3
+          image: hetznercloud/hcloud-csi-driver:v2.7.1
           imagePullPolicy: Always
           env:
             - name: CSI_ENDPOINT
@@ -188,7 +188,7 @@ spec:
             allowPrivilegeEscalation: true
         - name: liveness-probe
           imagePullPolicy: Always
-          image: quay.io/k8scsi/livenessprobe:v1.1.0
+          image: quay.io/k8scsi/livenessprobe:v2.2.0
           args:
             - --csi-address=/var/lib/csi/sockets/pluginproxy/csi.sock
           volumeMounts:
@@ -224,7 +224,7 @@ spec:
       serviceAccountName: hcloud-csi
       containers:
         - name: csi-node-driver-registrar
-          image: quay.io/k8scsi/csi-node-driver-registrar:v1.3.0
+          image: quay.io/k8scsi/csi-node-driver-registrar:v2.1.0
           args:
             - --v=5
             - --csi-address=/csi/csi.sock
@@ -243,7 +243,7 @@ spec:
           securityContext:
             privileged: true
         - name: hcloud-csi-driver
-          image: hetznercloud/hcloud-csi-driver:1.5.3
+          image: hetznercloud/hcloud-csi-driver:v2.7.1
           imagePullPolicy: Always
           env:
             - name: CSI_ENDPOINT
@@ -286,7 +286,7 @@ spec:
             periodSeconds: 2
         - name: liveness-probe
           imagePullPolicy: Always
-          image: quay.io/k8scsi/livenessprobe:v1.1.0
+          image: quay.io/k8scsi/livenessprobe:v2.2.0
           args:
             - --csi-address=/csi/csi.sock
           volumeMounts:

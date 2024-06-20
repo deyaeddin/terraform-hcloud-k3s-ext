@@ -1,25 +1,20 @@
 
 
-data "template_file" "get_connected" {
-  template = file(var.k3s_config_file)
-  depends_on = [local_file.set_kube_config]
-}
-
 output "k3s_host" {
-  value = yamldecode(data.template_file.get_connected.rendered).clusters[0].cluster.server
+  value = local.raw_settings!=null ? local.raw_settings.clusters[0].cluster.server : null
 }
 
 output "k3s_cluster_ca_certificate" {
-  value = yamldecode(data.template_file.get_connected.rendered).clusters[0].cluster.certificate-authority-data
+  value = local.raw_settings!=null ? local.raw_settings.clusters[0].cluster.certificate-authority-data : null
   sensitive = true
 }
 
 output "k3s_client_certificate" {
-  value = yamldecode(data.template_file.get_connected.rendered).users[0].user.client-certificate-data
+  value = local.raw_settings!=null ? local.raw_settings.users[0].user.client-certificate-data : null
   sensitive = true
 }
 
 output "k3s_client_key" {
-  value = yamldecode(data.template_file.get_connected.rendered).users[0].user.client-key-data
+  value = local.raw_settings!=null ? local.raw_settings.users[0].user.client-key-data : null
   sensitive = true
 }

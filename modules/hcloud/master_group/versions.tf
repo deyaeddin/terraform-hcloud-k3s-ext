@@ -2,12 +2,9 @@ terraform {
   required_providers {
     hcloud = {
       source = "hetznercloud/hcloud"
-      version = ">= 1.26.0"
+      version = ">= 1.47.0"
     }
-    template = {
-      source = "hashicorp/template"
-      version = ">= 2.2.0"
-    }
+
   }
-  required_version = ">= 0.14"
+  required_version = ">= 1.8.0"
 }

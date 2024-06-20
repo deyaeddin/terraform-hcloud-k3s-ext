@@ -14,8 +14,10 @@ certManager:
   serviceAccountName: cert-manager
 
 image:
-  repository: deyaeddin/cert-manager-webhook-hetzner
-  tag: latest
+  registry: ghcr.io
+  repository: vadimkim/cert-manager-webhook-hetzner
+  # Overrides the image tag whose default is {{ printf "v%s" .Chart.AppVersion }}
+  tag: ""
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -28,64 +30,33 @@ service:
 secretName:
   - ${secretName}
 
-replicaCount: 1
-
-resources:
-  limits:
-     cpu: 250m
-     memory: 256Mi
-  requests:
-     cpu: 250m
-     memory: 256Mi
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
 
 nodeSelector: {}
-#  disktype: ssd
 
 tolerations: []
-#  - key: "key1"
-#    operator: "Equal"
-#    value: "value1"
-#    effect: "NoSchedule"
 
 affinity: {}
-#  nodeAffinity:
-#    requiredDuringSchedulingIgnoredDuringExecution:
-#      nodeSelectorTerms:
-#        - matchExpressions:
-#            - key: kubernetes.io/e2e-az-name
-#              operator: In
-#              values:
-#                - e2e-az1
-#                - e2e-az2
-#    preferredDuringSchedulingIgnoredDuringExecution:
-#      - weight: 1
-#        preference:
-#          matchExpressions:
-#            - key: another-node-label-key
-#              operator: In
-#              values:
-#                - another-node-label-value
 
 
 
 
-## NGINX pods' Security Context.
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-##
-podSecurityContext:
-  enabled: true
-  fsGroup: 1001
-  ## sysctl settings
-  ## Example:
-  # sysctls:
-  # - name: net.core.somaxconn
-  #   value: "10000"
-  ##
-#  sysctls: []
 
-## NGINX Core containers' Security Context (only main container).
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
-##
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+
 containerSecurityContext:
   enabled: true
   runAsUser: 1001

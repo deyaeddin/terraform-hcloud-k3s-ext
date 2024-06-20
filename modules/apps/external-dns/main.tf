@@ -12,10 +12,11 @@ locals {
 
 
 resource "helm_release" "external_dns" {
+  provider = helm.configured
   name       = "external-dns"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "external-dns"
-  version    = "5.0.0"
+  version    = "8.0.0"
 
   values = [
     templatefile("${path.module}/values.yaml", {
@@ -24,8 +25,6 @@ resource "helm_release" "external_dns" {
       provider          = var.dns_provider
       secret_name       = local.dns_secret_name
 
-      cloud_flare_api_token   = var.cloud_flare_api_token
-      cloud_flare_api_key     = var.cloud_flare_api_key
       cloud_flare_api_email   = var.cloud_flare_api_email
       cloud_flare_api_proxied = var.cloud_flare_api_proxied
     })
@@ -33,7 +32,7 @@ resource "helm_release" "external_dns" {
 
   // Error: Post "http://localhost/api/v1/namespaces/default/secrets": dial tcp 127.0.0.1:80: connect: connection refused
   // doesn't make sense but ..?!!
-  depends_on = [kubernetes_secret.dns_secrets]
+#   depends_on = [kubernetes_secret.dns_secrets]
 }
 
 

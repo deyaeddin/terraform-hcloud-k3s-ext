@@ -6,9 +6,7 @@ resource "null_resource" "helm_updater" {
         helm repo add stable https://charts.helm.sh/stable
         helm repo add bitnami https://charts.bitnami.com/bitnami
         helm repo add jetstack https://charts.jetstack.io
-        helm repo add deyaeddin https://deyaeddin.github.io/cert-manager-webhook-hetzner/chart/
-        helm repo add minio https://operator.min.io/
-        helm repo add octant-dashboard https://deyaeddin.github.io/octant-dashboard-turnkey/repo
+        helm repo add cert-manager-webhook-hetzner https://vadimkim.github.io/cert-manager-webhook-hetzner
         helm repo update
     EOT
   }
@@ -22,20 +20,18 @@ module "default_backend" {
   default_domain = var.default_domain
   nginx_default_backend = var.nginx_default_backend
   default_namespace = var.default_namespace
+  default_backend_image_registry = var.default_backend_image_registry
+  default_backend_image_repository = var.default_backend_image_repository
+  default_backend_image_tag = var.default_backend_image_tag
+  default_backend_image_digest = var.default_backend_image_digest
+
+  providers = {
+    helm.default = helm.default
+    helm.configured = helm.configured
+  }
 
   depends_on = [null_resource.helm_updater]
 }
-
-module "octant" {
-  source = "./octant"
-  cluster_issuer_name = var.cluster_issuer_name
-  letsencrypt_is_prod = var.letsencrypt_is_prod
-  default_domain = var.default_domain
-  default_namespace = var.default_namespace
-
-  depends_on = [null_resource.helm_updater]
-}
-
 
 module "nginx_ingress_controller" {
   source                = "./nginx-ingress-controller"
@@ -45,7 +41,10 @@ module "nginx_ingress_controller" {
   nginx_default_backend = var.nginx_default_backend
   default_namespace = var.default_namespace
   lb_hcloud_name        = var.lb_hcloud_name
-
+  providers = {
+    helm.default = helm.default
+    helm.configured = helm.configured
+  }
   // we need the default backend service to be operated
   // so the loadbalancer become healthy
   depends_on = [module.default_backend]
@@ -62,9 +61,12 @@ module "external_dns" {
   cloud_flare_api_key     = var.cloud_flare_api_key
   cloud_flare_api_proxied = var.cloud_flare_api_proxied
   cloud_flare_api_token   = var.cloud_flare_api_token
-
+  providers = {
+    helm.default = helm.default
+    helm.configured = helm.configured
+  }
+  depends_on              = [module.nginx_ingress_controller]
 }
-
 
 
 module "cert_manager" {
@@ -82,34 +84,11 @@ module "cert_manager" {
   cloud_flare_api_email = var.cloud_flare_api_email
 
   hcloud_dns_api_token = var.hcloud_dns_api_token
-
+  providers = {
+    helm.default = helm.default
+    helm.configured = helm.configured
+  }
   # we need dns to be populated for DNS01 challenge
   depends_on = [module.external_dns]
 
-}
-
-
-module "minio_gateway" {
-
-  source = "./minio-gateway"
-  default_domain = var.default_domain
-  default_namespace = var.default_namespace
-  cluster_issuer_name = var.cluster_issuer_name
-  letsencrypt_is_prod = var.letsencrypt_is_prod
-
-  # we need issuing certificates
-  depends_on = [module.cert_manager]
-}
-
-
-
-module "minio_ops" {
-
-  source = "./minio-ops"
-  k3s_config_file       = var.k3s_config_file
-  default_domain        = var.default_domain
-  default_namespace     = var.default_namespace
-  storage_class         = var.storage_class
-  # we need issuing certificates
-  depends_on = [module.cert_manager]
 }

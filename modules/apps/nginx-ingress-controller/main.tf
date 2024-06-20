@@ -1,10 +1,11 @@
 
 resource "helm_release" "nginx_ingress" {
+  provider = helm.configured
   name             = "nginx-ingress-controller"
   repository       = "https://charts.bitnami.com/bitnami"
   chart            = "nginx-ingress-controller"
   namespace        = var.default_namespace
-  version          = "7.6.6"
+  version          = "11.3.8"
   create_namespace = true
 
   values = [
