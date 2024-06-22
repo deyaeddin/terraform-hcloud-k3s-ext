@@ -6,7 +6,6 @@ locals {
     k3s_version = var.k3s_version
 
     master_internal_ipv4 = var.master_internal_ipv4
-    node_internal_ipv4   = hcloud_server_network.node[count.index].ip
 
     extra_scripts = join("\n", var.hcloud_node_extra_scripts)
   })

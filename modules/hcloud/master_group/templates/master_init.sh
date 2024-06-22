@@ -8,7 +8,6 @@ apt-get install -q -y \
 
 # k3s
 curl -sfL https://get.k3s.io | INSTALL_K3S_CHANNEL=${k3s_channel} INSTALL_K3S_VERSION="${k3s_version}" K3S_TOKEN=${k3s_token} sh -s - ${k3s_ha_init}\
-    --tls-san ${master_internal_ipv4} \
     --flannel-backend=host-gw \
     --disable local-storage \
     --disable-cloud-controller \
