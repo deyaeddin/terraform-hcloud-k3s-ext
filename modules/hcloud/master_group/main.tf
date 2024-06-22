@@ -10,6 +10,7 @@ locals {
     k3s_channel = var.k3s_channel
     k3s_version = var.k3s_version
     k3s_ha_init = var.k3s_ha ? "server --cluster-init" : ""
+    master_internal_ipv4 = hcloud_server_network.master.ip
 
     ccm_manifest = local.ccm_manifest
     csi_manifest = local.csi_manifest
@@ -24,7 +25,8 @@ locals {
     k3s_token          = var.k3s_token
     k3s_channel        = var.k3s_channel
     k3s_version        = var.k3s_version
-    master_internal_ip = hcloud_server_network.master.ip
+    master_internal_ipv4 = hcloud_server_network.master.ip
+    node_internal_ipv4   = hcloud_server_network.master_node[count.index].ip
 
     ccm_manifest = local.ccm_manifest
     csi_manifest = local.csi_manifest
